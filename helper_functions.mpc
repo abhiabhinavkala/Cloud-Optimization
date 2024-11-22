@@ -1,0 +1,20 @@
+def secure_partition(matrix, mid):
+    A11 = matrix[:mid, :mid]
+    A12 = matrix[:mid, mid:]
+    A21 = matrix[mid:, :mid]
+    A22 = matrix[mid:, mid:]
+    return A11, A12, A21, A22
+
+def secure_combine(C11, C12, C21, C22):
+    top = sfix.concat(C11, C12, axis=1)
+    bottom = sfix.concat(C21, C22, axis=1)
+    return sfix.concat(top, bottom, axis=0)
+
+def secure_add(A, B):
+    return A + B  
+
+def secure_sub(A, B):
+    return A - B
+  
+def secure_dot(A, B):
+    return A * B

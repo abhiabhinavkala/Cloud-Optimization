@@ -1,0 +1,24 @@
+from library import *
+
+def secure_strassen(A, B, n):
+    if n <= 2:  # Base case
+        return secure_dot(A, B)
+
+    mid = n // 2
+    A11, A12, A21, A22 = secure_partition(A, mid)
+    B11, B12, B21, B22 = secure_partition(B, mid)
+
+    P1 = secure_strassen(A11, secure_sub(B12, B22), mid)
+    P2 = secure_strassen(secure_add(A11, A12), B22, mid)
+    P3 = secure_strassen(secure_add(A21, A22), B11, mid)
+    P4 = secure_strassen(A22, secure_sub(B21, B11), mid)
+    P5 = secure_strassen(secure_add(A11, A22), secure_add(B11, B22), mid)
+    P6 = secure_strassen(secure_sub(A12, A22), secure_add(B21, B22), mid)
+    P7 = secure_strassen(secure_sub(A11, A21), secure_add(B11, B12), mid)
+
+    C11 = secure_add(secure_sub(secure_add(P5, P4), P2), P6)
+    C12 = secure_add(P1, P2)
+    C21 = secure_add(P3, P4)
+    C22 = secure_sub(secure_sub(secure_add(P5, P1), P3), P7)
+
+    return secure_combine(C11, C12, C21, C22)
